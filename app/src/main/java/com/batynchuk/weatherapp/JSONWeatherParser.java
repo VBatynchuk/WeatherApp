@@ -1,5 +1,7 @@
 package com.batynchuk.weatherapp;
 
+import com.batynchuk.weatherapp.weather.Weather;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,8 +18,6 @@ public class JSONWeatherParser {
         weather.coord.setLongitude(coordObject.getDouble("lon"));
 
         JSONObject sysObject = jsonObject.getJSONObject("sys");
-       // weather.sys.setType(sysObject.getInt("type"));
-//        weather.sys.setSysId(sysObject.getInt("id"));
         weather.sys.setMessage(sysObject.getDouble("message"));
         weather.sys.setCountry(sysObject.getString("country"));
         weather.sys.setSunrise(sysObject.getLong("sunrise"));
@@ -40,16 +40,18 @@ public class JSONWeatherParser {
         weather.weatherMain.setHumidity(weatherMain.getInt("humidity"));
         weather.weatherMain.setMinTemperature(weatherMain.getDouble("temp_min"));
         weather.weatherMain.setMaxTemperature(weatherMain.getDouble("temp_max"));
+        weather.weatherMain.setSeaLevel(weatherMain.getDouble("sea_level"));
+        weather.weatherMain.setGroundLevel(weatherMain.getDouble("grnd_level"));
 
         JSONObject cloudObject = jsonObject.getJSONObject("clouds");
         weather.cloud.setCloudsAll(cloudObject.getInt("all"));
 
-        weather.setBase(jsonObject.getString("base"));
+        weather.otherWeatherInfo.setBase(jsonObject.getString("base"));
         //weather.setRainTime(jsonObject.getInt("rain"));
-        weather.setDt(jsonObject.getLong("dt"));
-        weather.setId(jsonObject.getInt("id"));
-        weather.setName(jsonObject.getString("name"));
-        weather.setCod(jsonObject.getInt("cod"));
+        weather.otherWeatherInfo.setDt(jsonObject.getLong("dt"));
+        weather.otherWeatherInfo.setId(jsonObject.getInt("id"));
+        weather.otherWeatherInfo.setName(jsonObject.getString("name"));
+        weather.otherWeatherInfo.setCod(jsonObject.getInt("cod"));
 
         return weather;
     }
