@@ -29,6 +29,7 @@ public class JSONWeatherParser {
         weather.weatherCondition.setwId(weatherConditionObject.getInt("id"));
         weather.weatherCondition.setDescription(weatherConditionObject.getString("description"));
         weather.weatherCondition.setMain(weatherConditionObject.getString("main"));
+        weather.weatherCondition.setIcon(weatherConditionObject.getString("icon"));
 
         JSONObject windObject = jsonObject.getJSONObject("wind");
         weather.wind.setWindSpeed(windObject.getDouble("speed"));

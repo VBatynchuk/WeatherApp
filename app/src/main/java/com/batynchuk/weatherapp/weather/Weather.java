@@ -10,4 +10,6 @@ public class Weather {
     public Cloud cloud = new Cloud();
     public OtherWeatherInfo otherWeatherInfo = new OtherWeatherInfo();
 
+    public byte[] iconData;
+
 }

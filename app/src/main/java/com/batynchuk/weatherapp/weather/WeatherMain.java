@@ -4,9 +4,9 @@ package com.batynchuk.weatherapp.weather;
  * Created by Батинчук on 17.06.2016.
  */
 public class WeatherMain {
+
     private double temperature;
     private int pressure;
-
     private int humidity;
     private double minTemperature;
     private double maxTemperature;
