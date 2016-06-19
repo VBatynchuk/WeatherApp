@@ -82,4 +82,20 @@
         android:background="@android:color/transparent"
         android:scaleType="fitCenter" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/latitude"
+        android:layout_below="@+id/day_time"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/longitude"
+        android:layout_below="@+id/latitude"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

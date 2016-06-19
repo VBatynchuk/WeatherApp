@@ -1,14 +1,24 @@
 package com.batynchuk.weatherapp;
 
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import android.location.*;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.batynchuk.weatherapp.weather.Weather;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONException;
 
@@ -17,7 +27,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class WeatherMain extends AppCompatActivity {
+public class WeatherMain extends AppCompatActivity implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private TextView tvCityName;
     private TextView tvDescription;
@@ -27,10 +38,15 @@ public class WeatherMain extends AppCompatActivity {
     private TextView tvWindSpeed;
     private TextView tvDayTime;
     private ImageView ivWeather;
+    private TextView tvLatitude;
+    private TextView tvLongitude;
 
-    WeatherHTTPGet weatherHTTPGet = new WeatherHTTPGet();
+    private GoogleApiClient mGoogleApiClient;
+    private WeatherHTTPGet weatherHTTPGet = new WeatherHTTPGet();
     private String city = "Kiev";
 
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 123;
+    private static final int MY_PERMISSIONS_REQUEST_COARSE_LOCATION = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +62,107 @@ public class WeatherMain extends AppCompatActivity {
         tvWindSpeed = (TextView) findViewById(R.id.wind_speed);
         tvDayTime = (TextView) findViewById(R.id.day_time);
         ivWeather = (ImageView) findViewById(R.id.image_weather);
+        tvLatitude = (TextView) findViewById(R.id.latitude);
+        tvLongitude = (TextView) findViewById(R.id.longitude);
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
 
         JSONWeatherTask task = new JSONWeatherTask();
         task.execute(city);
 
     }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_COARSE_LOCATION);
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        android.location.Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            tvLatitude.setText(String.valueOf(mLastLocation.getLatitude()));
+            tvLongitude.setText(String.valueOf(mLastLocation.getLongitude()));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    tvLatitude.setText("Granted");
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    tvLatitude.setText("NotGranted");
+                }
+                return;
+            }
+            case MY_PERMISSIONS_REQUEST_COARSE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    tvLongitude.setText("Granted");
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    tvLongitude.setText("NotGranted");
+                }
+                return;
+
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
 
     private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
 
@@ -102,6 +214,8 @@ public class WeatherMain extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(weather.otherWeatherInfo.getDt() * 1000);
             tvDayTime.setText(calendar.getTime().toString());
+
+
         }
     }
 }
