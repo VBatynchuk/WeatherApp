@@ -1,101 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/top_margin"
     tools:context=".WeatherMain">
 
-    <TextView
-        android:id="@+id/city_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/weather"
-        android:textSize="@dimen/city_name_text_size"
-        android:textStyle="bold" />
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:orientation="vertical"
+        android:paddingBottom="300dp" />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/city_name"
-        android:layout_marginTop="15dp"
-        android:text="description here"
-        android:textSize="@dimen/ordinary_text_size" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/top_margin">
 
-    <TextView
-        android:id="@+id/temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description"
-        android:layout_toEndOf="@+id/image_weather"
-        android:text="0C"
-        android:textSize="@dimen/temperature_size" />
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="@dimen/city_name_text_size"
+            android:textStyle="bold"
+            tools:text="City name" />
 
-    <TextView
-        android:id="@+id/pressure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/image_weather"
-        android:text="pressure here"
-        android:textSize="@dimen/ordinary_text_size" />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/city_name"
+            android:layout_marginTop="16dp"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Description, some" />
 
-    <TextView
-        android:id="@+id/humidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/pressure"
-        android:text="humidity here"
-        android:textSize="@dimen/ordinary_text_size" />
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/image_weather"
+            android:textSize="@dimen/temperature_size"
+            tools:text="32C" />
 
-    <TextView
-        android:id="@+id/wind_speed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/humidity"
-        android:text="wind_speed here"
-        android:textSize="@dimen/ordinary_text_size" />
+        <TextView
+            android:id="@+id/pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/image_weather"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Pressure: 1000" />
 
-    <TextView
-        android:id="@+id/day_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/wind_speed"
-        android:text="day_time here"
-        android:textSize="@dimen/ordinary_text_size" />
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/pressure"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Humidity: 1000" />
 
-    <ImageButton
-        android:id="@+id/image_weather"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/description"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter" />
+        <TextView
+            android:id="@+id/wind_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/humidity"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Wind Speed: 3.11" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/latitude"
-        android:layout_below="@+id/day_time"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:id="@+id/day_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/wind_speed"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Day time 13:12:11" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/longitude"
-        android:layout_below="@+id/latitude"
-        android:layout_alignParentStart="true" />
+        <ImageButton
+            android:id="@+id/image_weather"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/description"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
 
+        <TextView
+            android:id="@+id/latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/day_time"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Latitude: 21312" />
+
+        <TextView
+            android:id="@+id/longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/latitude"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Longitude: 243213" />
+
+        <TextView
+            android:id="@+id/max_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/temperature"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/temperature"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Min: 31" />
+
+        <TextView
+            android:id="@+id/min_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/max_temperature"
+            android:layout_below="@+id/max_temperature"
+            android:textSize="@dimen/ordinary_text_size"
+            tools:text="Max: 32" />
+
+    </RelativeLayout>
 </RelativeLayout>

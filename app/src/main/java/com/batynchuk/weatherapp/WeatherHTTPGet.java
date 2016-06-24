@@ -10,13 +10,13 @@ import java.net.URL;
 
 
 public class WeatherHTTPGet {
-    private static String URL_BASE = "http://api.openweathermap.org/data/2.5/weather?q=";
+    private static String URL_BASE = "http://api.openweathermap.org/data/2.5/weather?lat=";
     private static final String API_KEY = "&APPID=2ad13af02d3ec1ce877fc6d8b3308686";
     private static String IMG_URL = "http://openweathermap.org/img/w/";
 
-    public String getWeatherData(String location) throws IOException {
+    public String getWeatherData(String latitude, String longitude) throws IOException {
         HttpURLConnection connection =
-                (HttpURLConnection) (new URL(URL_BASE + location + API_KEY))
+                (HttpURLConnection) (new URL(URL_BASE + latitude + "&lon=" + longitude + API_KEY))
                         .openConnection();
         connection.setRequestMethod("GET");
         connection.setDoInput(true);
